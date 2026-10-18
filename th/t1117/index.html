@@ -49,7 +49,7 @@
   var SRC = { ig: 'instagram', th: 'threads' };
   var m = location.pathname.match(/\/(ig|th)\/([a-z0-9]+)\/?$/);
   var s0 = m ? m[1] : q.get('s'), c0 = m ? m[2] : q.get('c');
-  var s = SRC[s0] ? s0 : 'ig';
+  var s = SRC[s0] ? s0 : 'th';  // 경로·쿼리 없는 맨 주소 = 스레드 프로필 링크(스레드가 쿼리를 지움)
   var c = /^(profile|bio|[rcdot]\d{4}[a-z]?)$/.test(c0 || '') ? c0 : 'profile';
   var ref = 'utm_source=' + SRC[s] + '&utm_medium=social&utm_campaign=law&utm_content=' + c;
   var play = 'https://play.google.com/store/apps/details?id=biz.educere.law.arxv&referrer=' + encodeURIComponent(ref);
