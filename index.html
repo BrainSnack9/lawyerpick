@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://brainsnack9.github.io/lawyerpick/og.jpg">
 <meta property="og:url" content="https://brainsnack9.github.io/lawyerpick/">
 <meta name="robots" content="noindex">
-<link rel="icon" href="icon.png">
+<link rel="icon" href="/lawyerpick/icon.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   :root { --ivory:#F6F1E7; --navy:#1E2A4A; --coral:#FB7185; --soft:#5B647A; }
@@ -31,7 +31,7 @@
 </head>
 <body>
 <main>
-  <img class="icon" src="icon.png" alt="로이어픽 앱 아이콘">
+  <img class="icon" src="/lawyerpick/icon.png" alt="로이어픽 앱 아이콘">
   <h1>로이어픽</h1>
   <p class="sub">변호사시험 선택형 기출 <b>2,250문항 무료</b><br>제1회~제15회, 문항마다 해설과 분류까지</p>
   <ul>
@@ -44,11 +44,13 @@
   <small id="note"></small>
 </main>
 <script>
-  // 추적 규칙은 pipeline/links.py 와 같다. s=ig|th, c=게시물 ID
+  // 추적 규칙은 pipeline/links.py 와 같다. 경로 /lawyerpick/<ig|th>/<게시물 ID>/ (스레드가 쿼리를 지워서 경로 방식), 쿼리 ?s=&c= 도 지원
   var q = new URLSearchParams(location.search);
   var SRC = { ig: 'instagram', th: 'threads' };
-  var s = SRC[q.get('s')] ? q.get('s') : 'ig';
-  var c = /^(profile|bio|[rcdot]\d{4}[a-z]?)$/.test(q.get('c') || '') ? q.get('c') : 'profile';
+  var m = location.pathname.match(/\/(ig|th)\/([a-z0-9]+)\/?$/);
+  var s0 = m ? m[1] : q.get('s'), c0 = m ? m[2] : q.get('c');
+  var s = SRC[s0] ? s0 : 'ig';
+  var c = /^(profile|bio|[rcdot]\d{4}[a-z]?)$/.test(c0 || '') ? c0 : 'profile';
   var ref = 'utm_source=' + SRC[s] + '&utm_medium=social&utm_campaign=law&utm_content=' + c;
   var play = 'https://play.google.com/store/apps/details?id=biz.educere.law.arxv&referrer=' + encodeURIComponent(ref);
   var appStore = 'https://apps.apple.com/kr/app/id6808561437?pt=126271020&ct=' + s + '_' + c + '&mt=8';
