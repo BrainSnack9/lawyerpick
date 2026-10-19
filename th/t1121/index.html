@@ -11,6 +11,14 @@
 <meta property="og:url" content="https://brainsnack9.github.io/lawyerpick/">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/lawyerpick/icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4HLRC5P95R"></script>
+<script>
+  // 랜딩 방문·스토어 이동 집계 (GA4 로이어픽 웹 스트림. 호스트 brainsnack9.github.io 로 앱 웹과 구분) — report/weekly.js 가 경로별로 읽는다
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-4HLRC5P95R');
+</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   :root { --ivory:#F6F1E7; --navy:#1E2A4A; --coral:#FB7185; --soft:#5B647A; }
@@ -50,7 +58,7 @@
   var m = location.pathname.match(/\/(ig|th)\/([a-z0-9]+)\/?$/);
   var s0 = m ? m[1] : q.get('s'), c0 = m ? m[2] : q.get('c');
   var s = SRC[s0] ? s0 : 'th';  // 경로·쿼리 없는 맨 주소 = 스레드 프로필 링크(스레드가 쿼리를 지움)
-  var c = /^(profile|bio|[rcdot]\d{4}[a-z]?)$/.test(c0 || '') ? c0 : 'profile';
+  var c = /^(profile|bio|[rcdote]\d{4}[a-z]?)$/.test(c0 || '') ? c0 : 'profile';
   var ref = 'utm_source=' + SRC[s] + '&utm_medium=social&utm_campaign=law&utm_content=' + c;
   var play = 'https://play.google.com/store/apps/details?id=biz.educere.law.arxv&referrer=' + encodeURIComponent(ref);
   var appStore = 'https://apps.apple.com/kr/app/id6808561437?pt=126271020&ct=' + s + '_' + c + '&mt=8';
@@ -62,10 +70,18 @@
   ios.className += isAndroid ? ' secondary' : ' primary';
   android.className += isAndroid ? ' primary' : ' secondary';
   if (isAndroid) android.parentNode.insertBefore(android, ios);
+  // 스토어 이동을 이벤트로 남긴다(store: ios|android, how: auto|tap). 전송을 기다리되 최대 0.9초
+  function track(store, how, then) {
+    var done = false, go = function () { if (!done) { done = true; then && then(); } };
+    try { gtag('event', 'store_redirect', { store: store, how: how, channel: SRC[s], post_id: c, transport_type: 'beacon', event_callback: go }); } catch (e) {}
+    setTimeout(go, 900);
+  }
+  ios.addEventListener('click', function (e) { e.preventDefault(); track('ios', 'tap', function () { location.href = appStore; }); });
+  android.addEventListener('click', function (e) { e.preventDefault(); track('android', 'tap', function () { location.href = play; }); });
   // 휴대폰이면 바로 스토어로. 인앱 브라우저에서 막히면 버튼이 그대로 남는다
   if ((isIOS || isAndroid) && !q.has('stay')) {
     document.getElementById('note').textContent = '스토어로 이동 중… 열리지 않으면 위 버튼을 눌러 주세요.';
-    setTimeout(function () { location.replace(isIOS ? appStore : play); }, 350);
+    track(isIOS ? 'ios' : 'android', 'auto', function () { location.replace(isIOS ? appStore : play); });
   }
 </script>
 </body>
