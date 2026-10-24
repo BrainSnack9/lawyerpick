@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>로이어픽 — 변호사시험 기출 앱</title>
+<meta name="description" content="변호사시험 선택형 기출 2,250문항 무료. 회차별·과목별·근거유형별·출제의도별로 골라 풀기.">
+<meta property="og:title" content="로이어픽 — 변시 선택형 기출 2,250문항 무료">
+<meta property="og:description" content="판례 근거 문항만, 출제의도별로, 약점만 골라 풀기. 해설과 비슷한 문제까지 앱에서.">
+<meta property="og:image" content="https://brainsnack9.github.io/lawyerpick/og.jpg">
+<meta property="og:url" content="https://brainsnack9.github.io/lawyerpick/">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/lawyerpick/icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4HLRC5P95R"></script>
+<script>
+  // 랜딩 방문·스토어 이동 집계 (GA4 로이어픽 웹 스트림. 호스트 brainsnack9.github.io 로 앱 웹과 구분) — report/weekly.js 가 경로별로 읽는다
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-4HLRC5P95R');
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root { --ivory:#F6F1E7; --navy:#1E2A4A; --coral:#FB7185; --soft:#5B647A; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--ivory); color:var(--navy); font-family:Pretendard,-apple-system,sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px 16px; }
+  main { width:100%; max-width:420px; text-align:center; }
+  img.icon { width:96px; height:96px; border-radius:22px; box-shadow:0 6px 20px rgba(30,42,74,.18); }
+  h1 { font-size:28px; margin:20px 0 6px; letter-spacing:-.02em; }
+  p.sub { color:var(--soft); font-size:16px; line-height:1.55; margin-bottom:24px; }
+  ul { list-style:none; padding:0; margin:0 0 28px; text-align:left; display:grid; gap:8px; }
+  li { background:#fff; border-radius:12px; padding:12px 14px; font-size:15px; }
+  li b { color:var(--coral); }
+  a.btn { display:block; padding:16px; border-radius:14px; font-weight:700; font-size:17px; text-decoration:none; margin-bottom:10px; }
+  a.primary { background:var(--navy); color:#fff; }
+  a.secondary { background:#fff; color:var(--navy); border:1.5px solid var(--navy); }
+  small { display:block; color:var(--soft); margin-top:16px; font-size:13px; }
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="/lawyerpick/icon.png" alt="로이어픽 앱 아이콘">
+  <h1>로이어픽</h1>
+  <p class="sub">변호사시험 선택형 기출 <b>2,250문항 무료</b><br>제1회~제15회, 문항마다 해설과 분류까지</p>
+  <ul>
+    <li><b>근거유형별</b> 판례 근거 문항만 모아 풀기</li>
+    <li><b>출제의도별</b> 규범 지식·사실관계 포섭 따로</li>
+    <li><b>약점공략</b> 틀린 유형을 다시, 비슷한 문제로</li>
+  </ul>
+  <a id="ios" class="btn" href="#">아이폰 App Store</a>
+  <a id="android" class="btn" href="#">안드로이드 Google Play</a>
+  <small id="note"></small>
+</main>
+<script>
+  // 추적 규칙은 pipeline/links.py 와 같다. 경로 /lawyerpick/<ig|th>/<게시물 ID>/ (스레드가 쿼리를 지워서 경로 방식), 쿼리 ?s=&c= 도 지원
+  var q = new URLSearchParams(location.search);
+  var SRC = { ig: 'instagram', th: 'threads' };
+  var m = location.pathname.match(/\/(ig|th)\/([a-z0-9]+)\/?$/);
+  var s0 = m ? m[1] : q.get('s'), c0 = m ? m[2] : q.get('c');
+  var s = SRC[s0] ? s0 : 'th';  // 경로·쿼리 없는 맨 주소 = 스레드 프로필 링크(스레드가 쿼리를 지움)
+  var c = /^(profile|bio|[rcdote]\d{4}[a-z]?)$/.test(c0 || '') ? c0 : 'profile';
+  var ref = 'utm_source=' + SRC[s] + '&utm_medium=social&utm_campaign=law&utm_content=' + c;
+  var play = 'https://play.google.com/store/apps/details?id=biz.educere.law.arxv&referrer=' + encodeURIComponent(ref);
+  var appStore = 'https://apps.apple.com/kr/app/id6808561437?pt=126271020&ct=' + s + '_' + c + '&mt=8';
+  var ios = document.getElementById('ios'), android = document.getElementById('android');
+  ios.href = appStore; android.href = play;
+  var ua = navigator.userAgent;
+  var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/.test(ua);
+  ios.className += isAndroid ? ' secondary' : ' primary';
+  android.className += isAndroid ? ' primary' : ' secondary';
+  if (isAndroid) android.parentNode.insertBefore(android, ios);
+  // 스토어 이동을 이벤트로 남긴다(store: ios|android, how: auto|tap). 전송을 기다리되 최대 0.9초
+  function track(store, how, then) {
+    var done = false, go = function () { if (!done) { done = true; then && then(); } };
+    try { gtag('event', 'store_redirect', { store: store, how: how, channel: SRC[s], post_id: c, transport_type: 'beacon', event_callback: go }); } catch (e) {}
+    setTimeout(go, 900);
+  }
+  ios.addEventListener('click', function (e) { e.preventDefault(); track('ios', 'tap', function () { location.href = appStore; }); });
+  android.addEventListener('click', function (e) { e.preventDefault(); track('android', 'tap', function () { location.href = play; }); });
+  // 휴대폰이면 바로 스토어로. 인앱 브라우저에서 막히면 버튼이 그대로 남는다
+  if ((isIOS || isAndroid) && !q.has('stay')) {
+    document.getElementById('note').textContent = '스토어로 이동 중… 열리지 않으면 위 버튼을 눌러 주세요.';
+    track(isIOS ? 'ios' : 'android', 'auto', function () { location.replace(isIOS ? appStore : play); });
+  }
+</script>
+</body>
+</html>
