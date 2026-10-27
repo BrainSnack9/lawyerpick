@@ -49,6 +49,7 @@
   </ul>
   <a id="ios" class="btn" href="#">아이폰 App Store</a>
   <a id="android" class="btn" href="#">안드로이드 Google Play</a>
+  <a id="web" class="btn" href="https://law.educere.ltd/">설치 없이 웹에서 바로 풀기</a>
   <small id="note"></small>
 </main>
 <script>
@@ -62,14 +63,20 @@
   var ref = 'utm_source=' + SRC[s] + '&utm_medium=social&utm_campaign=law&utm_content=' + c;
   var play = 'https://play.google.com/store/apps/details?id=biz.educere.law.arxv&referrer=' + encodeURIComponent(ref);
   var appStore = 'https://apps.apple.com/kr/app/id6808561437?pt=126271020&ct=' + s + '_' + c + '&mt=8';
-  var ios = document.getElementById('ios'), android = document.getElementById('android');
-  ios.href = appStore; android.href = play;
+  // 웹앱(2026-10-27 추가): 같은 추적값을 utm 으로 붙여 웹앱 GA4 세션 소스로 잡는다
+  var webUrl = 'https://law.educere.ltd/?' + ref;
+  var ios = document.getElementById('ios'), android = document.getElementById('android'), web = document.getElementById('web');
+  ios.href = appStore; android.href = play; web.href = webUrl;
   var ua = navigator.userAgent;
   var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   var isAndroid = /Android/.test(ua);
-  ios.className += isAndroid ? ' secondary' : ' primary';
+  var isMobile = isIOS || isAndroid;
+  // 휴대폰: 내 기기 스토어가 주 버튼, 웹은 맨 아래 보조. PC: 앱을 바로 깔 수 없으니 웹이 맨 위 주 버튼
+  ios.className += (isIOS) ? ' primary' : ' secondary';
   android.className += isAndroid ? ' primary' : ' secondary';
+  web.className += isMobile ? ' secondary' : ' primary';
   if (isAndroid) android.parentNode.insertBefore(android, ios);
+  if (!isMobile) ios.parentNode.insertBefore(web, ios);
   // 스토어 이동을 이벤트로 남긴다(store: ios|android, how: auto|tap). 전송을 기다리되 최대 0.9초
   function track(store, how, then) {
     var done = false, go = function () { if (!done) { done = true; then && then(); } };
@@ -78,6 +85,7 @@
   }
   ios.addEventListener('click', function (e) { e.preventDefault(); track('ios', 'tap', function () { location.href = appStore; }); });
   android.addEventListener('click', function (e) { e.preventDefault(); track('android', 'tap', function () { location.href = play; }); });
+  web.addEventListener('click', function (e) { e.preventDefault(); track('web', 'tap', function () { location.href = webUrl; }); });
   // 휴대폰이면 바로 스토어로. 인앱 브라우저에서 막히면 버튼이 그대로 남는다
   if ((isIOS || isAndroid) && !q.has('stay')) {
     document.getElementById('note').textContent = '스토어로 이동 중… 열리지 않으면 위 버튼을 눌러 주세요.';
